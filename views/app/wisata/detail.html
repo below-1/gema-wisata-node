@@ -1,0 +1,77 @@
+{% extends 'app/base.html' %}
+{% import 'app/macros.html' as mac %}
+{% import './macros.html' as wisata_mac %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Wisata
+        </div>
+        <h2 class="page-title">
+          {{ item.nama }}
+        </h2>
+      </div>
+      <div class="col-auto ms-auto d-print-none">
+        <div class="btn-list">
+          <a href="#" 
+            class="btn" 
+            data-bs-toggle="modal" 
+            data-bs-target="#modal-hapus"
+          >
+            Danger modal
+          </a>
+          <button class="btn btn-primary">Tambah Gambar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12 col-md-5">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Data Wisata {{ item.nama }}</h4>
+        </div>
+        <form class="card-body" 
+          method="post" 
+          enctype="multipart/form-data"
+          action="/app/wisata/{{item._id}}/update"
+        >
+          {{ wisata_mac.wisata_form(item, readonly=false, exclude=['avatar']) }}
+        </form>
+      </div>
+    </div>
+    <div class="col-12 col-md-7">
+      <div class="row">
+        <div class="col-12 col-md-4">
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block modal_section %}
+  <div class="modal modal-blur fade" id="modal-hapus" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-status bg-danger"></div>
+        <div class="modal-body">
+          <div class="modal-title">Apakah anda yakin?</div>
+          <div>Anda akan menghapus data obyek wisata <strong>{{item.nama}}</strong></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-link link-secondary me-auto" data-bs-dismiss="modal">Batalkan</button>
+          <a 
+            href="/app/wisata/{{item.id}}/delete"
+            class="btn btn-danger"
+          >Ya, Silahkan Hapus</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
