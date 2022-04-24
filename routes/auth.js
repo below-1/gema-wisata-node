@@ -11,6 +11,7 @@ export default async (fastify) => {
         username: reply.flash('username.errors'),
         password: reply.flash('password.errors'),
       }
+      console.log(errors)
       reply.view('auth/login', {
         errors
       })
@@ -31,10 +32,15 @@ export default async (fastify) => {
         }
       })
       if (!user) {
-        const stored_message = request.flash('username.errors', ['username tidak dapat ditemukan'])
+        request.flash('username.errors', ['username tidak dapat ditemukan'])
         return reply.redirect('/auth/login')
       }
-      reply.send('OK')
+      if (user.password != password) {
+        request.flash('password.errors', ['password tidak cocok'])
+        return reply.redirect('/auth/login')
+      }
+      request.session.set('user', user)
+      reply.redirect('/app')
     }
   })
 }

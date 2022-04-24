@@ -4,7 +4,7 @@ import WisataRoutes from './wisata.js'
 export default async (fastify) => {
 
   fastify.addHook('onRequest', async (request, reply) => {
-    const user = request.session.user;
+    const user = request.session.get('user');
     if (!user) {
       reply.redirect('/')
       return
