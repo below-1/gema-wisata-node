@@ -8,8 +8,8 @@ export default async (fastify) => {
   fastify.get('/login', {
     handler: async (request, reply) => {
       let errors = {
-        username: request.flash('username.error'),
-        password: request.flash('password.error'),
+        username: reply.flash('username.errors'),
+        password: reply.flash('password.errors'),
       }
       reply.view('auth/login', {
         errors
@@ -31,8 +31,8 @@ export default async (fastify) => {
         }
       })
       if (!user) {
-        request.flash('username.error', 'username tidak dapat ditemukan')
-        reply.redirect('/auth/login')
+        const stored_message = request.flash('username.errors', ['username tidak dapat ditemukan'])
+        return reply.redirect('/auth/login')
       }
       reply.send('OK')
     }

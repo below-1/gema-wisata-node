@@ -61,7 +61,7 @@
         <div class="text-center mb-4">
           <a href="." class="navbar-brand navbar-brand-autodark"><img src="./static/logo.svg" height="36" alt=""></a>
         </div>
-        <form class="card card-md" method="post" enctype="multipart/form-data" data-parsley-validate>
+        <form class="card card-md was-validated" method="post" enctype="multipart/form-data" data-parsley-validate>
           <div class="card-body">
             <h2 class="card-title text-center mb-4">Login Form</h2>
             <div class="mb-3">
@@ -74,10 +74,12 @@
                 data-parsley-required
                 data-parsley-minlength="5"
               >
-              {% if errors.username %}
-                <div class="invalid-feedback">
-                  Username tidak ditemukan
-                </div>
+              {% if errors.username and errors.username.length > 0 %}
+                {% for err in errors.username %}
+                  <div class="invalid-feedback">
+                    {{err}}
+                  </div>
+                {% endfor %}
               {% endif %}
             </div>
             <div class="mb-3">
