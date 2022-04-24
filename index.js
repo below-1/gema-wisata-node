@@ -1,16 +1,19 @@
+import { join } from 'path'
+import { readFileSync } from 'fs'
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
+
 import Fastify from 'fastify'
 import mongoose from 'mongoose'
 import POV from 'point-of-view'
 import nunjucks from 'nunjucks'
-import DB from './db.js'
 import Multer from 'fastify-multer'
 import Static from 'fastify-static'
-import Cookie from 'fastify-cookie'
-import Session from './session.js'
-import { join } from 'path'
-import AppRoutes from './routes/app/index.js';
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
+import Session from 'fastify-secure-session'
+import Flash from 'fastify-flash'
+
+import DB from './db.js'
+import Routes from './routes/index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -20,8 +23,13 @@ const fastify = Fastify({
 
 fastify
   .register(DB)
-  .register(Cookie)
-  .register(Session)
+  .register(Session, {
+    key: readFileSync(join(__dirname, '.session_secret')),
+    cookie: {
+      path: '/'
+    }
+  })
+  .register(Flash)
   .register(Static, {
     root: join(__dirname, 'static'),
     prefix: '/static'
@@ -29,7 +37,8 @@ fastify
   fastify.register(Static, {
     root: join(__dirname, 'resources'),
     prefix: '/resources',
-    decorateReply: false // the reply decorator has been added by the first plugin registration
+    // the reply decorator has been added by the first plugin registration
+    decorateReply: false 
   })
   .register(POV, {
     engine: {
@@ -37,11 +46,15 @@ fastify
     },
     root: join(__dirname, 'views'),
     viewExt: 'html',
-    includeViewExtension: true
+    includeViewExtension: true,
+    defaultContext: {
+      static: '/static',
+      appTitle: 'ApWisata'
+    }
   })
   .register(Multer.contentParser)
 // fastify.register(Multipart)
-  .register(AppRoutes, { prefix: '/app' })
+  .register(Routes)
 
 async function main() {
   try {
