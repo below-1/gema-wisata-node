@@ -25,8 +25,8 @@ export default async fastify => {
       let filter = {}
       // Processing the filter based on jenis
       const items = await Wisata.find(filter)
-      topsis(items, weights)
-      reply.send('OK')
+      const rekomendasi = topsis(items, weights)
+      reply.send(rekomendasi)
     }
   })
 }
