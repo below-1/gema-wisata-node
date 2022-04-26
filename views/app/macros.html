@@ -70,13 +70,14 @@
   {{ checkbox_input(name, selected=selected, readonly=readonly, options=options) }}
 {% endmacro %}
 
-{% macro number_field(name, label, min=0, max=0, value='', placeholder='', required=false, readonly=false) %}
+{% macro number_field(name, label, min=0, max=0, value='', placeholder='', required=false, readonly=false, step=1) %}
   <div class="form-group mb-3">
     <label class="form-label">{{label}}</label>
     <input class="form-control" 
       type="number" 
-      min={{min}},
-      max={{max}},
+      min={{min}}
+      max={{max}}
+      step={{ step }}
       {% if (required) %}
         required
       {% endif %}
@@ -131,6 +132,19 @@
       {% endif %}
     >
   </div>
+{% endmacro %}
+
+{% macro bobot_input(name, label) %}
+    <div class="form-group mb-3">
+      <div class="form-label"> {{label}} </div>
+      <select class="form-control" name={{name}} required>
+        <option value="5">Sangat Penting</option>
+        <option value="4">Penting</option>
+        <option value="3">Cukup Penting</option>
+        <option value="2">Kurang Penting</option>
+        <option value="1">Tidak Penting</option>
+      </select>
+    </div>
 {% endmacro %}
 
 {% macro header(title, subtitle) %}

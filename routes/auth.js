@@ -27,14 +27,14 @@ export default async (fastify) => {
         password
       } = payload;
       const user = await User.findOne({
-        where: {
-          username
-        }
+        username
       })
       if (!user) {
         request.flash('username.errors', ['username tidak dapat ditemukan'])
         return reply.redirect('/auth/login')
       }
+      console.log(user)
+      console.log(password)
       if (user.password != password) {
         request.flash('password.errors', ['password tidak cocok'])
         return reply.redirect('/auth/login')

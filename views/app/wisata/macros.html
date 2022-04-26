@@ -1,11 +1,14 @@
 {% import 'app/macros.html' as mac %}
 
 {% macro wisata_item(item) %}
-  <div class="col-sm-6 col-lg-4">
-    <div class="card card-sm">
-      <a href="/app/wisata/{{item._id}}/detail" class="d-block">
-        <img src="{{item.avatar.url}}" class="card-img-top">
-      </a>
+  <div class="col-sm-6 col-lg-3">
+
+    <a href="/app/wisata/{{item.id}}/detail" class="card card-sm">
+      <div 
+        class="card-body"
+        style="background-image: url({{item.avatar.url}}); background-size: cover; background-position: center; height: 12rem;"
+      >
+      </div>
       <div class="card-body">
         <div class="d-flex align-items-center">
           <div>
@@ -14,7 +17,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </a>
   </div>
 {% endmacro %}
 
@@ -77,7 +80,7 @@
     {% endif %}
 
     {% if (not exclude.includes('biaya')) %}
-      {{  mac.number_field('biaya', label='Biaya', required=true, value=item.biaya, readonly=readonly) }}
+      {{  mac.number_field('biaya', label='Biaya', required=true, max=9999999999999, value=item.biaya, readonly=readonly) }}
     {% endif %}
 
     {% if (not exclude.includes('waktu')) %}
@@ -98,7 +101,8 @@
           'jarak', 
           label='Jarak (km)', 
           min=0, 
-          max=200, 
+          max=200,
+          step=0.1,
           placeholder="Jarak Tempuh Menuju Lokasi",
           required=true,
           value=item.jarak,

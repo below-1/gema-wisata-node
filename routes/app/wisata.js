@@ -14,8 +14,9 @@ export default async (fastify) => {
       filter.jenis = jenis
     }
     const items = await Wisata.find(filter) 
-    reply.view('app/wisata/list', {
-      items
+    reply.xview('app/wisata/list', {
+      items,
+      jenis
     })
   })
 
@@ -23,13 +24,13 @@ export default async (fastify) => {
     const item = await Wisata.findById(request.params.id)
     console.log('item')
     console.log(item)
-    reply.view('app/wisata/detail', {
+    reply.xview('app/wisata/detail', {
       item
     })
   })
 
   fastify.get('/create', async (request, reply) => {
-    reply.view('app/wisata/create', {
+    reply.xview('app/wisata/create', {
       message: ''
     })
   })
@@ -101,7 +102,7 @@ export default async (fastify) => {
   fastify.get('/:id/add-media', {
     handler: async (request, reply) => {
       const item = await Wisata.findById(request.params.id)
-      reply.view('app/wisata/add-media', {
+      reply.xview('app/wisata/add-media', {
         item
       })
     }

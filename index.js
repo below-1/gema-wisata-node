@@ -11,7 +11,12 @@ import Multer from 'fastify-multer'
 import Static from 'fastify-static'
 import Session from 'fastify-secure-session'
 import Flash from 'fastify-flash'
+import { 
+  fastifyRequestContextPlugin as RCPlugin, 
+  requestContext as rc 
+} from 'fastify-request-context';
 
+import XView from './xview.js'
 import DB from './db.js'
 import Routes from './routes/index.js';
 
@@ -23,6 +28,7 @@ const fastify = Fastify({
 
 fastify
   .register(DB)
+  .register(RCPlugin)
   .register(Session, {
     key: readFileSync(join(__dirname, '.session_secret')),
     cookie: {
@@ -53,7 +59,7 @@ fastify
     }
   })
   .register(Multer.contentParser)
-// fastify.register(Multipart)
+  .register(XView)
   .register(Routes)
 
 async function main() {

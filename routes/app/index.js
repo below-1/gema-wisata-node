@@ -1,5 +1,10 @@
+import { 
+  requestContext as rc 
+} from 'fastify-request-context';
+
 import { Wisata } from '../../models/wisata.model.js'
 import WisataRoutes from './wisata.js'
+import RekomendasiRoutes from './rekomendasi.js'
 
 export default async (fastify) => {
 
@@ -9,15 +14,18 @@ export default async (fastify) => {
       reply.redirect('/')
       return
     }
+    rc.set('user', user)
   })
 
   fastify.get('/', async (request, reply) => {
     console.log(`trying to insert one wisata doc ..`)
     console.log()
-    reply.view('app/base', {
+    reply.xview('app/base', {
       message: 'hallo'
     })
   })
+
   fastify.register(WisataRoutes, { prefix: 'wisata' })
+  fastify.register(RekomendasiRoutes, { prefix: 'rekomendasi' })
 
 }

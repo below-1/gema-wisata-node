@@ -22,10 +22,12 @@
     "fastify-multer": "^2.0.2",
     "fastify-multipart": "^5.3.1",
     "fastify-plugin": "^3.0.1",
+    "fastify-request-context": "^2.2.0",
     "fastify-secure-session": "^3.1.0",
     "fastify-session": "^5.2.1",
     "fastify-static": "^4.6.1",
     "imagekit": "^3.2.5",
+    "lodash-es": "^4.17.21",
     "mongoose": "^6.2.10",
     "nunjucks": "^3.2.3",
     "point-of-view": "^5.2.0"
