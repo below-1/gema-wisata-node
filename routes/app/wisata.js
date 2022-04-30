@@ -94,6 +94,7 @@ export default async (fastify) => {
         }
         reply.redirect('/app/not-found')
       } else {
+        await wisata.delete()
         reply.redirect('/app/wisata')
       }
     }

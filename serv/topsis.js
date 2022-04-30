@@ -28,6 +28,8 @@ function norm_column(Xs, i) {
 
 export function topsis(items, weights) {
   let Xs = items.map(wisata_to_value)
+  console.log(Xs)
+  throw new Error('stop')
   let Rs = []
   for (let i = 0; i < N_KRITERIA; i++) {
     const norm = norm_column(Xs, i);
@@ -73,6 +75,8 @@ export function topsis(items, weights) {
   const prefs = range(Xs.length).map(ix => {
     return D_neg[ix] / (D_pos[ix] + D_neg[ix])
   })
+  console.log('prefs')
+  console.log(prefs)
 
   let biggest_index = -1;
   let biggest_pref = -1;
