@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { MediaSchema } from './media.model.js';
+import { KritschSchema } from './kritsch.model.js'
 
 export const Fasilitas = {
   Parkiran: 'Parkiran',
@@ -32,28 +33,9 @@ export const WisataSchema = new mongoose.Schema({
   nama: { type: String, required: true },
   description: { type: String, required: false },
   alamat: { type: String, required: false },
-  fasilitas: [{ 
-    type: String, 
-    enum: Object.values(Fasilitas),
-    required: true
-  }],
-  transportasi: [{ 
-    type: String, 
-    enum: Object.values(Transportasi),
-    required: true
-  }],
-  biaya: {
-    type: mongoose.Schema.Types.Decimal128,
-    required: true
-  },
-  waktu: {
-    type: Number,
-    required: true
-  },
-  jarak: {
-    type: Number,
-    required: true
-  },
+
+  kriterias: KritschSchema,
+
   avatar: MediaSchema,
   medias: [MediaSchema]
 }, { timestamps: true })
