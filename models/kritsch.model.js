@@ -42,4 +42,6 @@ export const KritschSchema = new mongoose.Schema({
     required: true,
   },
   krits: [KriteriaSchema]
-})
+}, { timestamps: true })
+
+export const Kritsch = mongoose.model("Kritsch", KritschSchema);

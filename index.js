@@ -56,6 +56,13 @@ fastify
     defaultContext: {
       static: '/static',
       appTitle: 'ApWisata'
+    },
+    options: {
+      onConfigure: (env) => {
+        env.addFilter('static', (str) => {
+          return `/static/${str}`
+        })
+      }
     }
   })
   .register(Multer.contentParser)
