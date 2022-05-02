@@ -15,7 +15,7 @@
       <!-- Page title actions -->
       <div class="col-auto ms-auto d-print-none">
         <div class="btn-list">
-          <form method="POST" action="/app/kriteria/create" enctype="multipart/form-data">
+          <form method="POST" action="/app/schema/create" enctype="multipart/form-data">
             <button 
               type="submit"
               class="btn btn-primary" 
@@ -41,6 +41,8 @@
               <tr>
                 <th>Versi</th>
                 <th>Kriteria</th>
+                <th>Status</th>
+                <th>Aktif</th>
                 <th></th>
               </tr>
             </thead>
@@ -53,8 +55,18 @@
                       <span>Belum ada kriteria</span>
                     {% endif %}
                   </td>
+                  <td>
+                    {% if not item.locked %}
+                      <span>Draft</span>
+                    {% else %}
+                      <span>Terkunci</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <span>{% if item.active %} aktif {% endif %}</span>
+                  </td>
                   <td class="text-end">
-                    <a class="btn btn-primary btn-sm" href="/app/kriteria/{{item.id}}/detail">detail</a>
+                    <a class="btn btn-primary btn-sm" href="/app/schema/{{item.id}}/detail">detail</a>
                   </td>
                 </tr>
               {% endfor %}

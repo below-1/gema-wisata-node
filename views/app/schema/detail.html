@@ -1,0 +1,42 @@
+{% extends 'app/base.html' %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Skema
+        </div>
+        <h2 class="page-title">
+          <span>Detail Skema #{{schema.version}}</span>
+        </h2>
+      </div>
+      <!-- Page title actions -->
+      <div class="col-auto ms-auto d-print-none">
+        <div class="btn-list">
+          <a 
+            class="btn btn-outline-primary" 
+            href="/app/schema/{{schema._id}}/add-kriteria"
+          >tambah kriteria</a>
+          <a 
+            class="btn btn-outline-danger" 
+            href="/app/schema/{{schema._id}}/delete"
+          >hapus</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <div class="card">
+        <div class="card-body">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

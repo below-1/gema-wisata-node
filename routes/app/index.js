@@ -5,7 +5,7 @@ import {
 import { Wisata } from '../../models/wisata.model.js'
 import WisataRoutes from './wisata.js'
 import RekomendasiRoutes from './rekomendasi.js'
-import KriteriaRoutes from './kriteria.js'
+import SchemaRoutes from './schema.js'
 
 export default async (fastify) => {
 
@@ -28,6 +28,6 @@ export default async (fastify) => {
 
   fastify.register(WisataRoutes, { prefix: 'wisata' })
   fastify.register(RekomendasiRoutes, { prefix: 'rekomendasi' })
-  fastify.register(KriteriaRoutes, { prefix: 'kriteria' })
+  fastify.register(SchemaRoutes, { prefix: 'schema' })
 
 }
