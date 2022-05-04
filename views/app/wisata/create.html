@@ -29,7 +29,54 @@
           method="post" 
           enctype="multipart/form-data"
         >
-          {{ wisata_mac.wisata_form() }}
+          <div class="form-group mb-3">
+            <label class="form-label">Jenis Wisata</label>
+            {{ mac.jenis_wisata_input('jenis') }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Nama Obyek Wisata</label>
+            <input type="text" class="form-control" name="nama" />
+          </div>
+
+          {% for kriteria in kriteria_list %}
+            <div class="mb-3">
+              <label class="form-label">{{ kriteria.nama }}</label>
+              {% if kriteria.type == 'OPTIONS' %}
+                <select
+                  class="form-control"
+                  {% if kriteria.multiple %}
+                    multiple
+                  {% endif %}
+                  name="{{kriteria.nama}}"
+                >
+                  {% for option in kriteria.text_options %}
+                    <option>{{option.label}}</option>
+                  {% endfor %}
+                </select>
+              {% elif kriteria.type == 'NUMBER' %}
+                <input
+                  type="number"
+                  class="form-control"
+                  required
+                  name="{{kriteria.nama}}"
+                />
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          <div class="form-group mb-3">
+            <div class="form-label">Avatar</div>
+            <input
+              name="avatar" 
+              type="file" 
+              class="form-control"
+              required
+            >
+          </div>
+
+          <button type="submit" class="btn btn-outline-primary w-100 fw-bold">simpan</button>
+
         </form>
       </div>
     </div>

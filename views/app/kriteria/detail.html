@@ -131,7 +131,7 @@
                 {% for opt in kriteria.text_options %}
                   <tr>
                     <td>{{ opt.label }}</td>
-                    <td>{{ format_weight(opt.weight) }}</td>
+                    <td>{{ format_weight(opt.value) }}</td>
                     <td class="text-end">
                       <a class="btn btn-outline-danger btn-sm" 
                         href="/app/option/delete?kriteria={{kriteria._id}}&option={{opt._id}}"

@@ -36,7 +36,7 @@ export const WisataSchema = new mongoose.Schema({
 
   kriterias: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Kriteria'
+    ref: 'KriteriaValue'
   }],
 
   avatar: MediaSchema,

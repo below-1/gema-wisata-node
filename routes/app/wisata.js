@@ -2,6 +2,8 @@ import Multer from 'fastify-multer'
 import { promises as fs } from 'fs'
 import { imagekit } from '../../util.js'
 import { Wisata, JenisWisata } from '../../models/wisata.model.js'
+import { Kriteria, KriteriaValue } from '../../models/kritsch.model.js'
+import { pick, map as _map } from 'lodash-es'
 
 const upload = Multer({ dest: 'uploads/' })
 
@@ -30,20 +32,32 @@ export default async (fastify) => {
   })
 
   fastify.get('/create', async (request, reply) => {
+    const kriteria_list = await Kriteria.find();
     reply.xview('app/wisata/create', {
-      message: ''
+      message: '',
+      kriteria_list
     })
   })
 
   fastify.post('/create', {
     preHandler: upload.single('avatar'),
     handler: async (request, reply) => {
+      const kriteria_list = await Kriteria.find().sort({ createdAt: 1 });
       let payload = {...request.body}
+
+      let kriteria_name_map = new Map();
+      let kriteria_names = [];
+      kriteria_list.forEach(k => {
+        kriteria_name_map.set(k.nama, k);
+        kriteria_names.push(k.nama);
+      })
+      const wisata_data = pick(payload, ['nama', 'jenis']);
+      const kriteria_inputs = pick(payload, kriteria_names);
 
       // Avatar file
       const f = request.file
       // Read content as buffer asynchronously
-      const buff = await fs.readFile(f.path)
+      const buff = await fs.readFile(f.path);
       const uploadResponse = await imagekit.upload({
         file: buff,
         fileName: f.originalname,
@@ -53,13 +67,21 @@ export default async (fastify) => {
         url: avatar_url
       }
       let wisata = new Wisata({
-        ...payload,
+        ...wisata_data,
         avatar
       })
-      await wisata.save()
+      await wisata.save();
 
-      fastify.log.info('created new wisata')
-      fastify.log.info(wisata)
+      const kriteria_values = kriteria_names.map(name => {
+        return {
+          kriteria: kriteria_name_map.get(name)._id,
+          value: kriteria_inputs[name],
+          wisata: wisata._id
+        }
+      });
+
+      const bulk_insert_kriteria_values_result = await KriteriaValue.insertMany(kriteria_values);
+      console.log(bulk_insert_kriteria_values_result);
 
       // Redirect to detail wisata
       const redirect_url = `/app/wisata/${wisata._id}/detail`
