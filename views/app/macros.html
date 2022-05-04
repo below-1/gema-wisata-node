@@ -148,5 +148,27 @@
     </div>
 {% endmacro %}
 
+{% macro bobot_input_v2(name, label, selected=null) %}
+  {% set options = [ 
+    { value: 'TIDAK_PENTING', label: 'Tidak Penting' }, 
+    { value: 'KURANG_PENTING', label: 'Kurang Penting' },
+    { value: 'CUKUP_PENTING', label: 'Cukup Penting' },
+    { value: 'PENTING', label: 'Penting' },
+    { value: 'SANGAT_PENTING', label: 'Sangat Penting' }] %}
+  <div class="form-group mb-3">
+      <div class="form-label"> {{label}} </div>
+      <select class="form-control" name={{name}} required>
+        {% for opt in options %}
+          <option 
+            value="{{opt.value}}"
+            {% if opt.value == selected %}
+              selected
+            {% endif %}
+          >{{opt.label}}</option>
+        {% endfor %}
+      </select>
+    </div>
+{% endmacro %}
+
 {% macro header(title, subtitle) %}
 {% endmacro %}

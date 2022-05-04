@@ -18,7 +18,7 @@ import {
 
 import XView from './xview.js'
 import DB from './db.js'
-import Routes from './routes/index.js';
+import Routes from './routes/index.js'; 
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

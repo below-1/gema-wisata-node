@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 
 const KriteriaType = {
   NUMBER: 'NUMBER',
-  OPTIONS: 'OPTIONS'
+  OPTIONS: 'OPTIONS',
+  MULTIPLE: 'MULTIPLE',
 }
 
 const WeightType = {
@@ -13,17 +14,29 @@ const WeightType = {
   SANGAT_PENTING: 'SANGAT_PENTING'
 }
 
+const BoundaryType = {
+  GT: 'GT',
+  GTE: 'GTE',
+  LT: 'LT',
+  LTE: 'LTE',
+  NONE: 'NONE'
+}
+
 const NumberOptionSchema = new mongoose.Schema({
   lower: Number,
-  lower_sign: { type: String, enum: ['<', '<='] },
+  lower_sign: { type: String, enum: Object.values(BoundaryType) },
   upper: Number,
-  upper_sign: { type: String, enum: ['>', '>='] },
-  value: Number,
+  upper_sign: { type: String, enum: Object.values(BoundaryType) },
+  value: { type: String, enum: Object.values((WeightType)) },
 })
 
 const TextOptionSchema = new mongoose.Schema({
   label: String,
-  value: Number,
+  value: { type: String, enum: Object.values((WeightType)) },
+})
+
+const MultipleTextOptionSchema = new mongoose.Schema({
+  label: String
 })
 
 export const KriteriaSchema = new mongoose.Schema({
@@ -35,6 +48,8 @@ export const KriteriaSchema = new mongoose.Schema({
   weight: { type: String, enum: Object.values(WeightType), required: true },
   number_options: [NumberOptionSchema],
   text_options: [TextOptionSchema],
+  multiple_options: [MultipleTextOptionSchema],
+  multiple: Boolean,
   benefit: {
     type: Boolean,
     required: true,
@@ -47,22 +62,31 @@ export const KriteriaSchema = new mongoose.Schema({
     type: Number,
     required: false,
   }
-})
-
-export const KritschSchema = new mongoose.Schema({
-  version: {
-    type: Number,
-    required: true,
-  },
-  locked: {
-    type: Boolean,
-    default: false,
-  },
-  active: {
-    type: Boolean,
-    default: false,
-  },
-  krits: [KriteriaSchema]
 }, { timestamps: true })
 
-export const Kritsch = mongoose.model("Kritsch", KritschSchema);
+KriteriaSchema.methods.addOption = function (option) {
+  if (this.type == 'MULTIPLE') {
+    this.multiple_options.push(option)
+  } else if (this.type == 'NUMBER') {
+    this.number_options.push(option)
+  } else if (this.type == 'OPTIONS') {
+    this.text_options.push(option)
+  }
+}
+
+export const Kriteria = mongoose.model('Kriteria', KriteriaSchema)
+
+
+export const KriteriaValueSchema = new mongoose.Schema({
+  kriteria: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Kriteria'
+  },
+  value: mongoose.Schema.Types.Mixed,
+  wisata: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Wisata'
+  }
+}, { timestamps: true })
+
+export const KriteriaValue = mongoose.model('KriteriaValue', KriteriaValueSchema)

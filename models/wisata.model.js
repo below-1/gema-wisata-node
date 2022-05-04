@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { MediaSchema } from './media.model.js';
-import { KritschSchema } from './kritsch.model.js'
+import { Kriteria } from './kritsch.model.js'
 
 export const Fasilitas = {
   Parkiran: 'Parkiran',
@@ -34,7 +34,10 @@ export const WisataSchema = new mongoose.Schema({
   description: { type: String, required: false },
   alamat: { type: String, required: false },
 
-  kriterias: KritschSchema,
+  kriterias: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Kriteria'
+  }],
 
   avatar: MediaSchema,
   medias: [MediaSchema]
