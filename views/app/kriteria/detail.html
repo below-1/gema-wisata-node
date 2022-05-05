@@ -43,11 +43,36 @@
             <label class="form-label">Tipe Kriteria</label>
             <input type="text" class="form-control" readonly value="{{kriteria.type}}" />
           </div>
-          {% if kriteria.type == 'OPTIONS' and kriteria.multiple %}
-            <div class="mb-3">
-              <label class="form-label">Lebih dari satu pilihan: Ya</label>
-            </div>
-          {% endif %}
+          <div class="mb-3">
+            <label class="form-label">Tipe Pilihan</label>
+            <label class="form-check">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                value="MULTIPLE"
+                name="multiple"
+                required
+                {% if kriteria.multiple %}
+                  checked
+                {% endif %}
+              />
+              <span class="form-check-label">Ganda</span>
+            </label>
+            <label class="form-check">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                value="SINGLE"
+                name="multiple"
+                required
+                {% if not kriteria.multiple %}
+                  checked
+                {% endif %}
+              />
+              <span class="form-check-label">Tunggal</span>
+            </label>
+          </div>
+
           <div class="mb-3">
             <label class="form-label">Benefit / Cost</label>
             <label class="form-check">

@@ -41,6 +41,7 @@ export default async (fastify) => {
   fastify.get('/:id/detail', {
     handler: async (request, reply) => {
       const kriteria = await Kriteria.findById(request.params.id)
+      // console.lo
       // throw new Error('kriteria')
       if (!kriteria) {
         request.session.error = {
@@ -61,12 +62,7 @@ export default async (fastify) => {
   fastify.post('/update', {
     preHandler: upload.none(),
     handler: async (request, reply) => {
-      const body = request.body;      
-      let payload = {
-        nama: body.nama,
-        weight: body.weight,
-      }
-      payload.benefit = body.tcrit == 'BENEFIT';
+      const body = request.body;
       const kriteria = await Kriteria.findById(request.query.kriteria)
       if (!kriteria) {
         request.session.error = {
@@ -76,9 +72,10 @@ export default async (fastify) => {
         reply.redirect('/app/not-found')
         return
       }
-      kriteria.nama = payload.nama
-      kriteria.weight = payload.weight
-      kriteria.benefit = payload.benefit
+      kriteria.nama = body.nama
+      kriteria.weight = body.weight
+      kriteria.benefit =body.tcrit == 'BENEFIT'
+      kriteria.multiple = body.multiple == 'MULTIPLE'
       await kriteria.save()
       reply.redirect(`/app/kriteria/${kriteria._id}/detail`)
     }
