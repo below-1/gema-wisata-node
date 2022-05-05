@@ -41,7 +41,6 @@ export default async (fastify) => {
   fastify.get('/:id/detail', {
     handler: async (request, reply) => {
       const kriteria = await Kriteria.findById(request.params.id)
-      console.log(kriteria)
       // throw new Error('kriteria')
       if (!kriteria) {
         request.session.error = {

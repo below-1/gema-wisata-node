@@ -17,11 +17,11 @@
       <div class="col-auto ms-auto d-print-none">
         <div class="btn-list">
           <a href="#" 
-            class="btn" 
+            class="btn btn-danger" 
             data-bs-toggle="modal" 
             data-bs-target="#modal-hapus"
           >
-            Danger modal
+            Hapus Data
           </a>
           <a 
             href="/app/wisata/{{item._id}}/add-media" 
@@ -44,7 +44,77 @@
           enctype="multipart/form-data"
           action="/app/wisata/{{item._id}}/update"
         >
-          {{ wisata_mac.wisata_form(item, readonly=false, exclude=['avatar']) }}
+          <div class="mb-3">
+            <label class="form-label">Jenis Wisata {{readonly}}</label>
+            {{ mac.jenis_wisata_input(
+                'jenis', 
+                selected=item.jenis, 
+                readonly=readonly) }}
+          </div>
+
+          {{  mac.text_field(
+            'nama', 
+            value=item.nama,
+            label='Nama Obyek Wisata', 
+            placeholder='Input Nama Obyek Wisata',
+            required=true,
+            readonly=readonly)
+          }}
+
+          {{  mac.textarea_field(
+            'alamat', 
+            value=item.description,
+            label='Alamat',
+            readonly=readonly)
+          }}
+
+          {{  mac.textarea_field(
+            'description', 
+            value=item.description,
+            label='Keterangan Obyek Wisata',
+            readonly=readonly)
+          }}
+
+          {% for kv in kriteria_values %}
+            <div class="mb-3">
+              <label class="form-label">{{ kv.kriteria.nama }}</label>
+              {% if kv.kriteria.type == 'OPTIONS' %}
+                <select
+                  class="form-control"
+                  {% if kv.kriteria.multiple %}
+                    multiple
+                  {% endif %}
+                  name="{{kv.kriteria.nama}}"
+                >
+                  {% for option in kv.kriteria.text_options %}
+                    <option
+                      value="{{option.label}}"
+                      {% if kv.value.includes(option.label) %}
+                        selected
+                      {% endif %}
+                    >{{option.label}}</option>
+                  {% endfor %}
+                </select>
+              {% elif kv.kriteria.type == 'NUMBER' %}
+                <input
+                  type="number"
+                  class="form-control"
+                  required
+                  name="{{kv.kriteria.nama}}"
+                  value="{{ kv.value }}"
+                />
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          <div class="mt-2">
+            <button 
+              type="submit" 
+              class="btn btn-primary w-100"
+            >
+              Simpan Data Obyek Wisata
+            </button>
+          </div>
         </form>
       </div>
     </div>

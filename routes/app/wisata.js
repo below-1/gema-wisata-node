@@ -24,10 +24,16 @@ export default async (fastify) => {
 
   fastify.get('/:id/detail', async (request, reply) => {
     const item = await Wisata.findById(request.params.id)
-    console.log('item')
-    console.log(item)
+    const kriteria_values = await KriteriaValue
+      .find({ wisata: item._id })
+      .populate('kriteria')
+      .sort({ 'kriteria.createdAt': 1 })
+    // console.log('kriteria_values');
+    // console.log(kriteria_values.map(it => it.value.includes('Parkiran')));
     reply.xview('app/wisata/detail', {
-      item
+      item,
+      readonly: false,
+      kriteria_values
     })
   })
 
