@@ -77,7 +77,10 @@
               <span class="form-check-label">Cost</span>
             </label>
           </div>
-          {{ mac.bobot_input_v2('weight', 'Bobot Kepentingan', selected=kriteria.weight) }}
+          <div class="mb-3">
+            <label class="form-label">Bobot</label>
+            <input type="number" value="{{kriteria.weight}}" name="weight" class="form-control" />
+          </div>
           <button type="submit" class="btn btn-primary w-100 fw-bold">simpan</button>
         </div>
       </form>
