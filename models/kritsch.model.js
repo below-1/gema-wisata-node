@@ -27,16 +27,17 @@ const NumberOptionSchema = new mongoose.Schema({
   lower_sign: { type: String, enum: Object.values(BoundaryType) },
   upper: Number,
   upper_sign: { type: String, enum: Object.values(BoundaryType) },
-  value: { type: String, enum: Object.values((WeightType)) },
+  value: Number
 })
 
 const TextOptionSchema = new mongoose.Schema({
   label: String,
-  value: { type: String, enum: Object.values((WeightType)) },
+  value: Number
 })
 
 const MultipleTextOptionSchema = new mongoose.Schema({
-  label: String
+  label: String,
+  value: Number
 })
 
 export const KriteriaSchema = new mongoose.Schema({
@@ -45,7 +46,7 @@ export const KriteriaSchema = new mongoose.Schema({
     type: String,
     enum: Object.values(KriteriaType)
   },
-  weight: { type: String, enum: Object.values(WeightType), required: true },
+  weight: { type: Number, required: true },
   number_options: [NumberOptionSchema],
   text_options: [TextOptionSchema],
   multiple_options: [MultipleTextOptionSchema],
