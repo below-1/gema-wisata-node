@@ -71,8 +71,8 @@ fastify
 
 async function main() {
   try {
-    await fastify.listen(5000)
-    console.log(`now listening at 5000`)
+    await fastify.listen(process.env.PORT || 5000)
+    console.log(`now listening`)
   } catch (err) {
     console.log(err)
     process.exit(1)
