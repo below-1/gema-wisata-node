@@ -13,11 +13,12 @@ export default async (fastify) => {
 
   fastify.addHook('onRequest', async (request, reply) => {
     const user = request.session.get('user');
-    if (!user) {
-      reply.redirect('/')
-      return
+    if (user) {
+      rc.set('user', user)
+    } else {
+      // reply.redirect('/')
+      // return
     }
-    rc.set('user', user)
   })
 
   fastify.get('/', async (request, reply) => {

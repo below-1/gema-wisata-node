@@ -1,22 +1,4 @@
 import { sum, zip, range, max, min } from 'lodash-es'
-import { map as map_fasilitas } from './fasilitas.js'
-import { map as map_biaya } from './biaya.js'
-import { map as map_waktu } from './waktu.js'
-import { map as map_jarak } from './jarak.js'
-import { map as map_transportasi } from './transportasi.js'
-
-const N_KRITERIA = 5;
-const KRITERIA_TYPES = ['benefit', 'cost', 'benefit', 'benefit', 'cost'];
-
-export function wisata_to_value(wisata) {
-  return [
-    map_fasilitas(wisata.fasilitas),
-    map_biaya(wisata.biaya),
-    map_waktu(wisata.waktu),
-    map_jarak(wisata.jarak),
-    map_transportasi(wisata.transportasi)
-  ]
-}
 
 function column(Xs, i) {
   return Xs.map(row => row[i])
@@ -26,10 +8,10 @@ function norm_column(Xs, i) {
   return Math.sqrt(sum(Xs.map(row => Math.pow(row[i], 2))))
 }
 
-export function topsis(items, weights) {
-  let Xs = items.map(wisata_to_value)
+export function topsis(Xs, weights, types) {
+  const N_KRITERIA = weights.length
+  console.log('Xs')
   console.log(Xs)
-  throw new Error('stop')
   let Rs = []
   for (let i = 0; i < N_KRITERIA; i++) {
     const norm = norm_column(Xs, i);
@@ -38,14 +20,16 @@ export function topsis(items, weights) {
     const Ri = column(Xs, i).map(x => x / norm)
     Rs.push(Ri) 
   }
-  const ideal_pos = KRITERIA_TYPES.map((c, i) => {
+  console.log('Rs')
+  console.log(Rs)
+  const ideal_pos = types.map((c, i) => {
     if (c == 'benefit') {
       return max(Rs[i])
     } else {
       return min(Rs[i])
     }
   })
-  const ideal_neg = KRITERIA_TYPES.map((c, i) => {
+  const ideal_neg = types.map((c, i) => {
     if (c == 'benefit') {
       return min(Rs[i])
     } else {
@@ -92,6 +76,6 @@ export function topsis(items, weights) {
 
   return {
     pref: biggest_pref,
-    ...items[biggest_index]
+    biggest_index
   }
 }

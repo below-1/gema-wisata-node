@@ -15,6 +15,7 @@
         </h2>
       </div>
       <div class="col-auto ms-auto d-print-none">
+        {% if context.user %}
         <div class="btn-list">
           <a href="#" 
             class="btn btn-danger" 
@@ -27,6 +28,7 @@
             href="/app/wisata/{{item._id}}/add-media" 
             class="btn btn-primary">Tambah Gambar</a>
         </div>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -39,6 +41,7 @@
         <div class="card-header">
           <h4 class="card-title">Data Wisata {{ item.nama }}</h4>
         </div>
+        {% if user %}
         <form class="card-body" 
           method="post" 
           enctype="multipart/form-data"
@@ -116,6 +119,25 @@
             </button>
           </div>
         </form>
+        {% else %}
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Nama</span>
+              <h4>{{item.nama}}</h4>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Alamat</span>
+              <h4>{{item.alamat}}</h4>
+            </li>
+            {% for kv in kriteria_values %}
+              <li class="list-group-item d-flex justify-content-between">
+                <span>{{ kv.kriteria.nama }}</span>
+                <h4>{{kv.value}}</h4>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
       </div>
     </div>
     <div class="col-12 col-md-8">

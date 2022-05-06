@@ -1,10 +1,14 @@
 import AppRoutes from './app/index.js'
 import AuthRoutes from './auth.js'
 import { User, Role } from '../models/user.model.js'
+import { Wisata } from '../models/wisata.model.js'
 
 export default async (fastify) => {
   fastify.get('/', async (request, reply) => {
-    reply.view('landing/index')
+    const items = await Wisata.find()
+    reply.view('landing/index', {
+      items
+    })
   })
 
   fastify.get('/dev', async (request, reply) => {

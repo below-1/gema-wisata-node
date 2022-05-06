@@ -42,7 +42,20 @@
           {% for kriteria in kriteria_list %}
             <div class="mb-3">
               <label class="form-label">{{ kriteria.nama }}</label>
-              {% if kriteria.type == 'OPTIONS' %}
+              {% if kriteria.type == 'OPTIONS' and kriteria.multiple %}
+                {% for option in kriteria.text_options %}
+                  <label class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="checkbox" 
+                      value="{{option.label}}"
+                      name="{{kriteria.nama}}"
+                      multiple 
+                    />
+                    <span class="form-check-label">{{option.label}}</span>
+                  </label>
+                {% endfor %}
+              {% elif kriteria.type == 'OPTIONS' and not kriteria.multiple %}
                 <select
                   class="form-control"
                   {% if kriteria.multiple %}
@@ -51,7 +64,9 @@
                   name="{{kriteria.nama}}"
                 >
                   {% for option in kriteria.text_options %}
-                    <option>{{option.label}}</option>
+                    <option
+                      value="{{option.label}}"
+                    >{{option.label}}</option>
                   {% endfor %}
                 </select>
               {% elif kriteria.type == 'NUMBER' %}

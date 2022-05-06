@@ -43,4 +43,11 @@ export default async (fastify) => {
       reply.redirect('/app')
     }
   })
+
+  fastify.get('/logout', {
+    handler: async (request, reply) => {
+      request.session.delete()
+      reply.redirect('/')
+    }
+  })
 }

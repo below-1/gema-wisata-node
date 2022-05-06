@@ -33,14 +33,18 @@ export const WisataSchema = new mongoose.Schema({
   nama: { type: String, required: true },
   description: { type: String, required: false },
   alamat: { type: String, required: false },
-
-  kriterias: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'KriteriaValue'
-  }],
-
   avatar: MediaSchema,
   medias: [MediaSchema]
-}, { timestamps: true })
+}, { 
+  timestamps: true,
+  toObject: { virtuals: true },
+  toJSON: { virtuals: true },
+})
+
+WisataSchema.virtual('kriterias', {
+  ref: 'KriteriaValue',
+  localField: '_id',
+  foreignField: 'wisata',
+})
 
 export const Wisata = mongoose.model('Wisata', WisataSchema);
