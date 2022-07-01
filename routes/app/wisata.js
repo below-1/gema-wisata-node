@@ -112,8 +112,8 @@ export default async (fastify) => {
       let wisata = await Wisata.findById(request.params.id)
       wisata.set(wisata_data)
       await wisata.save();
-      fastify.log.info(`update wisata(id=${request.params.id})`)
-      fastify.log.info(wisata);
+      request.log.info(`update wisata(id=${request.params.id})`)
+      request.log.info(wisata);
 
       const kriteria_values = kriteria_names.map(name => {
         return {
@@ -125,11 +125,10 @@ export default async (fastify) => {
       const { deletedCount } = await KriteriaValue.deleteMany({
         wisata: wisata._id
       });
-      fastify.log.info(`deleting ${deletedCount} KriteriaValue`);
+      request.log.info(`deleting ${deletedCount} KriteriaValue`);
 
       const kv_bulk_result = await KriteriaValue.insertMany(kriteria_values);
-      fastify.log.info(`insert ${kv_bulk_result.length} KriteriaValue`);
-      fastify.log.info(kv_bulk_result);
+      request.log.info(`insert ${kv_bulk_result.length} KriteriaValue`);
 
       // Redirect to detail wisata
       const redirect_url = `/app/wisata/${wisata._id}/detail`
