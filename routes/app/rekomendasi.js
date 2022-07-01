@@ -25,6 +25,7 @@ export default async fastify => {
       const kriteria_list = await Kriteria.find()
       const keys = kriteria_list.map(it => it.nama)
       let weights = values(pick(payload, keys)).map(it => parseInt(it))
+      console.log(weights)
       const total_weights = sum(weights)
       weights = weights.map(it => it * 1.0 / total_weights)
       const types = kriteria_list.map(k => k.benefit ? 'benefit' : 'cost')
@@ -63,6 +64,10 @@ export default async fastify => {
           }
         })
       )
+      // console.log('Xs')
+      // console.log(Xs.map(row =>  row[2]))
+      // console.log(items.map(it => it.nama))
+      // throw new Error('stop')
 
       let rekomendasi = topsis(Xs, weights, types)
       rekomendasi.item = items[rekomendasi.biggest_index]

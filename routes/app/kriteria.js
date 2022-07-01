@@ -9,7 +9,7 @@ export default async (fastify) => {
   fastify.get('/', {
     handler: async (request, reply) => {
       const items = await Kriteria.find({})
-      return reply.view('app/kriteria/list', {
+      return reply.xview('app/kriteria/list', {
         items
       })
     }
@@ -17,7 +17,7 @@ export default async (fastify) => {
 
   fastify.get('/create', {
     handler: async (request, reply) => {
-      return reply.view('app/kriteria/create')
+      return reply.xview('app/kriteria/create')
     }
   })
 
@@ -51,7 +51,7 @@ export default async (fastify) => {
         reply.redirect('/app/not-found')
         return
       }
-      reply.view('app/kriteria/detail', {
+      reply.xview('app/kriteria/detail', {
         kriteria,
         format_weight,
         format_number_option

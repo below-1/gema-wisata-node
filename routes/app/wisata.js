@@ -100,6 +100,8 @@ export default async (fastify) => {
     handler: async (request, reply) => {
       let payload = {...request.body}
       let wisata = await Wisata.findById(request.params.id)
+      console.log(payload)
+      console.log('payload')
       wisata.set(payload)
       await wisata.save()
 

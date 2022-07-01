@@ -10,18 +10,22 @@ function norm_column(Xs, i) {
 
 export function topsis(Xs, weights, types) {
   const N_KRITERIA = weights.length
-  console.log('Xs')
-  console.log(Xs)
+  // console.log('Xs')
+  // console.log(Xs)
   let Rs = []
+  console.log(Xs)
   for (let i = 0; i < N_KRITERIA; i++) {
     const norm = norm_column(Xs, i);
-    console.log(column(Xs, i))
+    console.log('c')
     console.log(norm)
+    // console.log(column(Xs, i))
+    // throw new Error('stop')
     const Ri = column(Xs, i).map(x => x / norm)
     Rs.push(Ri) 
   }
-  console.log('Rs')
-  console.log(Rs)
+  // throw new Error('stop')
+  // console.log('Rs')
+  // console.log(Rs)
   const ideal_pos = types.map((c, i) => {
     if (c == 'benefit') {
       return max(Rs[i])
@@ -73,6 +77,7 @@ export function topsis(Xs, weights, types) {
   if (biggest_index == -1) {
     throw new Error(`tidak dapat menemukan rekomendasi terbaik`)
   }
+  // throw new Error('stop')
 
   return {
     pref: biggest_pref,

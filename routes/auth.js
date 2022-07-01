@@ -33,8 +33,6 @@ export default async (fastify) => {
         request.flash('username.errors', ['username tidak dapat ditemukan'])
         return reply.redirect('/auth/login')
       }
-      console.log(user)
-      console.log(password)
       if (user.password != password) {
         request.flash('password.errors', ['password tidak cocok'])
         return reply.redirect('/auth/login')

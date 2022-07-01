@@ -41,7 +41,7 @@
         <div class="card-header">
           <h4 class="card-title">Data Wisata {{ item.nama }}</h4>
         </div>
-        {% if user %}
+        {% if context.user %}
         <form class="card-body" 
           method="post" 
           enctype="multipart/form-data"
