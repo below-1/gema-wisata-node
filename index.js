@@ -24,7 +24,15 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const static_prefix = process.env.NODE_ENV == 'production' ? 'https://below-1.github.io' : '/static'
 
 const fastify = Fastify({
-  // logger: true
+  logger: process.env.NODE_ENV === 'development'
+    ? {
+      prettyPrint: {
+          translateTime: true,
+          ignore: 'pid,hostname,reqId,responseTime,req,res',
+          messageFormat: '{msg} [id={reqId} {req.method} {req.url}]'
+      }
+    }
+    : undefined
 })
 
 fastify

@@ -42,7 +42,8 @@
           <h4 class="card-title">Data Wisata {{ item.nama }}</h4>
         </div>
         {% if context.user %}
-        <form class="card-body" 
+        <form 
+          class="card-body" 
           method="post" 
           enctype="multipart/form-data"
           action="/app/wisata/{{item._id}}/update"
@@ -66,7 +67,7 @@
 
           {{  mac.textarea_field(
             'alamat', 
-            value=item.description,
+            value=item.alamat,
             label='Alamat',
             readonly=readonly)
           }}

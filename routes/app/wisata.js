@@ -98,15 +98,38 @@ export default async (fastify) => {
   fastify.post('/:id/update', {
     preHandler: upload.none(),
     handler: async (request, reply) => {
-      let payload = {...request.body}
-      let wisata = await Wisata.findById(request.params.id)
-      console.log(payload)
-      console.log('payload')
-      wisata.set(payload)
-      await wisata.save()
+      const payload = request.body;
+      const kriteria_list = await Kriteria.find().sort({ createdAt: 1 });
+      let kriteria_name_map = new Map();
+      let kriteria_names = [];
+      kriteria_list.forEach(k => {
+        kriteria_name_map.set(k.nama, k);
+        kriteria_names.push(k.nama);
+      })
+      const kriteria_inputs = pick(payload, kriteria_names);
 
+      const wisata_data = pick(payload, ['nama', 'jenis', 'alamat', 'description']);
+      let wisata = await Wisata.findById(request.params.id)
+      wisata.set(wisata_data)
+      await wisata.save();
       fastify.log.info(`update wisata(id=${request.params.id})`)
-      fastify.log.info(wisata)
+      fastify.log.info(wisata);
+
+      const kriteria_values = kriteria_names.map(name => {
+        return {
+          kriteria: kriteria_name_map.get(name)._id,
+          value: kriteria_inputs[name],
+          wisata: wisata._id
+        }
+      });
+      const { deletedCount } = await KriteriaValue.deleteMany({
+        wisata: wisata._id
+      });
+      fastify.log.info(`deleting ${deletedCount} KriteriaValue`);
+
+      const kv_bulk_result = await KriteriaValue.insertMany(kriteria_values);
+      fastify.log.info(`insert ${kv_bulk_result.length} KriteriaValue`);
+      fastify.log.info(kv_bulk_result);
 
       // Redirect to detail wisata
       const redirect_url = `/app/wisata/${wisata._id}/detail`
@@ -142,6 +165,7 @@ export default async (fastify) => {
   fastify.post('/:id/add-media', {
     preHandler: upload.single('media'),
     handler: async (request, reply) => {
+      
       let wisata = await Wisata.findById(request.params.id)
       // Avatar file
       const f = request.file
