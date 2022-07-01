@@ -16,7 +16,7 @@ export default async (fastify) => {
       filter.jenis = jenis
     }
     const items = await Wisata.find(filter) 
-    reply.xview('app/wisata/list', {
+    await reply.xview('app/wisata/list', {
       items,
       jenis
     })
@@ -30,7 +30,7 @@ export default async (fastify) => {
       .sort({ 'kriteria.createdAt': 1 })
     // console.log('kriteria_values');
     // console.log(kriteria_values.map(it => it.value.includes('Parkiran')));
-    reply.xview('app/wisata/detail', {
+    await reply.xview('app/wisata/detail', {
       item,
       readonly: false,
       kriteria_values
@@ -156,7 +156,7 @@ export default async (fastify) => {
   fastify.get('/:id/add-media', {
     handler: async (request, reply) => {
       const item = await Wisata.findById(request.params.id)
-      reply.xview('app/wisata/add-media', {
+      await reply.xview('app/wisata/add-media', {
         item
       })
     }
