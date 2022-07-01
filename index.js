@@ -83,12 +83,13 @@ fastify.register(POV, {
   .register(Routes)
 
 async function main() {
+  const port = process.env.PORT
   try {
-    await fastify.listen(process.env.PORT || 5000, '0.0.0.0')
-    console.log(`now listening`)
-    console.log(process.env.NODE_ENV)
+    await fastify.listen(port, '0.0.0.0')
+    fastify.log.info(`now listening`)
+    fastify.log.info(process.env.NODE_ENV)
   } catch (err) {
-    console.log(err)
+    fastify.log(err)
     process.exit(1)
   }
 }

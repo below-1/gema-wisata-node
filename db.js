@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 import fp from 'fastify-plugin'
 
-const mongo_uri = process.env.MONGO_URI || 'mongodb://localhost/gema_db'
+const mongo_uri = process.env.MONGO_URI
+if (!mongo_uri) {
+  throw new Error('mongo_uri is not defined')
+}
 
 export default fp(async (fastify) => {
   try {
