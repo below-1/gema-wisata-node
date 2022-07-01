@@ -89,7 +89,7 @@ async function main() {
     fastify.log.info(`now listening`)
     fastify.log.info(process.env.NODE_ENV)
   } catch (err) {
-    fastify.log(err)
+    fastify.log.debug(err)
     process.exit(1)
   }
 }
