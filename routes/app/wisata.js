@@ -5,7 +5,8 @@ import { Wisata, JenisWisata } from '../../models/wisata.model.js'
 import { Kriteria, KriteriaValue } from '../../models/kritsch.model.js'
 import { pick, map as _map } from 'lodash-es'
 
-const upload = Multer({ dest: 'uploads/' })
+const storage = Multer.memoryStorage()
+const upload = Multer({ storage })
 
 export default async (fastify) => {
 
@@ -63,20 +64,23 @@ export default async (fastify) => {
       // Avatar file
       const f = request.file
       // Read content as buffer asynchronously
-      const buff = await fs.readFile(f.path);
       const uploadResponse = await imagekit.upload({
-        file: buff,
+        file: f.buffer,
         fileName: f.originalname,
       })
-      const avatar_url = uploadResponse.url
       const avatar = {
-        url: avatar_url
+        url: uploadResponse.url,
+        file_id: uploadResponse.fileId
       }
+      request.log.info('avatar object')
+      request.log.info(avatar)
       let wisata = new Wisata({
         ...wisata_data,
         avatar
       })
       await wisata.save();
+      request.log.info(wisata);
+      request.log.info('wisata');
 
       const kriteria_values = kriteria_names.map(name => {
         return {
