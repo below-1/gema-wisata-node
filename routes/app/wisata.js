@@ -216,4 +216,23 @@ export default async (fastify) => {
     }
   })
 
+  fastify.get('/:id/remove-media/:file_id', {
+    handler: async (request, reply) => {
+      const { params } = request;
+      const { id, file_id } = params;
+      let wisata = await Wisata.findById(id)
+      if (!wisata) {
+        request.session.error = {
+          status: 404,
+          message: 'Tidak dapat menemukan data wisata'
+        }
+        reply.redirect('/app/')
+        return;
+      }
+      wisata.medias = wisata.medias.filter(m => m._id.toString() != file_id)
+      await wisata.save()
+      reply.redirect(`/app/wisata/${id}/detail`);
+    }
+  })
+
 }
