@@ -28,7 +28,9 @@ export default async fastify => {
       const total_weights = sum(weights)
       weights = weights.map(it => it * 1.0 / total_weights)
       const types = kriteria_list.map(k => k.benefit ? 'benefit' : 'cost')
-      let filter = {}
+      let filter = {
+        jenis: request.query.jenis
+      }
       // Processing the filter based on jenis
       const items = await Wisata
         .find(filter)
