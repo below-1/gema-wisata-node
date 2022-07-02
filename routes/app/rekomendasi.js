@@ -23,9 +23,8 @@ export default async fastify => {
     handler: async (request, reply) => {
       let payload = {...request.body}
       const kriteria_list = await Kriteria.find()
-      const keys = kriteria_list.map(it => it.nama)
+      const keys = kriteria_list.map(it => it._id.toString())
       let weights = values(pick(payload, keys)).map(it => parseInt(it))
-      console.log(weights)
       const total_weights = sum(weights)
       weights = weights.map(it => it * 1.0 / total_weights)
       const types = kriteria_list.map(k => k.benefit ? 'benefit' : 'cost')

@@ -173,14 +173,14 @@ export default async (fastify) => {
       // Avatar file
       const f = request.file
       // Read content as buffer asynchronously
-      const buff = await fs.readFile(f.path)
       const uploadResponse = await imagekit.upload({
-        file: buff,
+        file: f.buffer,
         fileName: f.originalname,
       })
       const media_url = uploadResponse.url
       const media = {
-        url: media_url
+        url: media_url,
+        file_id: uploadResponse.fileId
       }
       wisata.medias.push(media)
       await wisata.save()
