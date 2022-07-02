@@ -46,18 +46,16 @@ fastify
   })
   .register(Flash)
   
-if (process.env.NODE_ENV != 'production') {
-  fastify.register(Static, {
-    root: join(__dirname, 'static'),
-    prefix: '/static'
-  })
-  fastify.register(Static, {
-    root: join(__dirname, 'resources'),
-    prefix: '/resources',
-    // the reply decorator has been added by the first plugin registration
-    decorateReply: false 
-  })
-}
+fastify.register(Static, {
+  root: join(__dirname, 'static'),
+  prefix: '/static'
+})
+fastify.register(Static, {
+  root: join(__dirname, 'resources'),
+  prefix: '/resources',
+  // the reply decorator has been added by the first plugin registration
+  decorateReply: false 
+})
 
 fastify.register(POV, {
     engine: {
