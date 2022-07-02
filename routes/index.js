@@ -23,4 +23,6 @@ export default async (fastify) => {
 
   fastify.register(AuthRoutes, { prefix: '/auth' })
   fastify.register(AppRoutes, { prefix: '/app' })
+
+  return;
 }

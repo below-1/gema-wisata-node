@@ -16,4 +16,5 @@ export default fp(async (fastify) => {
     console.log(err);
     throw err;
   }
+  return;
 })

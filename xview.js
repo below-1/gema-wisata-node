@@ -11,5 +11,6 @@ export default fp(async (fastify) => {
         user: rc.get('user')
       }
     })
-  })
+  });
+  return;
 })
