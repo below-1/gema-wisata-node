@@ -12,5 +12,4 @@ export default fp(async (fastify) => {
       }
     })
   });
-  return;
 })

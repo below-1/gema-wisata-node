@@ -4,7 +4,6 @@ import { dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 import Fastify from 'fastify'
-import mongoose from 'mongoose'
 import POV from 'point-of-view'
 import nunjucks from 'nunjucks'
 import Multer from 'fastify-multer'
@@ -24,8 +23,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const static_prefix = process.env.NODE_ENV == 'production' ? 'https://below-1.github.io' : '/static'
 
 const fastify = Fastify({
-  // logger: process.env.NODE_ENV === 'development'
-  logger: true
+  logger: process.env.NODE_ENV === 'development'
     ? {
       prettyPrint: {
           translateTime: true,

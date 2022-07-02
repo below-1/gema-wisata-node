@@ -10,11 +10,9 @@ export default fp(async (fastify) => {
   try {
     await mongoose.connect(mongo_uri, { useNewUrlParser: true, useUnifiedTopology: true },)
     fastify.decorate('get_mongo_client', mongoose.connection.getClient())
-    console.log(`done connection to mongo`)
+    console.log(`done connecting to mongo`)
   } catch (err) {
-    console.log('fail connecting to mongo')
-    console.log(err);
+    console.log('fail connecting to mongo');
     throw err;
   }
-  return;
 })
