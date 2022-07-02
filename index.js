@@ -20,7 +20,8 @@ import DB from './db.js'
 import Routes from './routes/index.js'; 
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const static_prefix = process.env.NODE_ENV == 'production' ? 'https://below-1.github.io' : '/static'
+// const static_prefix = process.env.NODE_ENV == 'production' ? 'https://below-1.github.io' : '/static'
+const static_prefix = '/static'
 
 const fastify = Fastify({
   logger: process.env.NODE_ENV === 'development'
