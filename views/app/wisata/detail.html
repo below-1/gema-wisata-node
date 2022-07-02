@@ -130,6 +130,10 @@
               <span>Alamat</span>
               <h4>{{item.alamat}}</h4>
             </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Keterangan</span>
+              <h4>{{item.description}}</h4>
+            </li>
             {% for kv in kriteria_values %}
               <li class="list-group-item d-flex justify-content-between">
                 <span>{{ kv.kriteria.nama }}</span>
