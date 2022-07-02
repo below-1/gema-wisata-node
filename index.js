@@ -71,7 +71,7 @@ fastify.register(POV, {
     options: {
       onConfigure: (env) => {
         env.addFilter('static', (str) => {
-          return `${static_prefix}/${str}`
+          return `${static_prefix}${str}`
         })
       }
     }
