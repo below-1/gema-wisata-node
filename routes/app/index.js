@@ -24,8 +24,8 @@ export default async (fastify) => {
   fastify.get('/', async (request, reply) => {
     console.log(`trying to insert one wisata doc ..`)
     console.log()
-    reply.xview('app/base', {
-      message: 'hallo'
+    reply.xview('app/dashboard', {
+      message: 'hello'
     })
   })
 

@@ -36,7 +36,7 @@
 
 {% block content %}
   <div class="row">
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-6">
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">Data Wisata {{ item.nama }}</h4>
@@ -126,11 +126,11 @@
               <span>Nama</span>
               <h4>{{item.nama}}</h4>
             </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>Alamat</span>
+            <li class="list-group-item d-flex justify-content-between" style="flex-direction: column;">
+              <span>Alamata</span>
               <h4>{{item.alamat}}</h4>
             </li>
-            <li class="list-group-item d-flex justify-content-between">
+            <li class="list-group-item d-flex justify-content-between" style="flex-direction: column;">
               <span>Keterangan</span>
               <h4>{{item.description}}</h4>
             </li>
