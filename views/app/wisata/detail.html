@@ -93,7 +93,7 @@
                   {% for option in kv.kriteria.text_options %}
                     <option
                       value="{{option.label}}"
-                      {% if kv.value.includes(option.label) %}
+                      {% if kv.value and kv.value.includes(option.label) %}
                         selected
                       {% endif %}
                     >{{option.label}}</option>

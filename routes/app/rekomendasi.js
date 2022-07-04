@@ -1,8 +1,6 @@
 import { pick, values, sum } from 'lodash-es'
 import Multer from 'fastify-multer'
-import { promises as fs } from 'fs'
-import { imagekit } from '../../util.js'
-import { Wisata, JenisWisata } from '../../models/wisata.model.js'
+import { Wisata } from '../../models/wisata.model.js'
 import { Kriteria } from '../../models/kritsch.model.js'
 import { topsis } from '../../serv/topsis.js'
 
@@ -32,7 +30,7 @@ export default async fastify => {
         jenis: payload.jenis
       }
       // Processing the filter based on jenis
-      const items = await Wisata
+      let items = await Wisata
         .find(filter)
         .populate({
           path: 'kriterias',
@@ -41,6 +39,7 @@ export default async fastify => {
             model: 'Kriteria'
           }
         })
+      items = items.filter(it => it.kriterias.every(kv => kv.value))
       
       const Xs = items.map(it => 
         it.kriterias.map(kv => {

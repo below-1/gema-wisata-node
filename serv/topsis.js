@@ -13,11 +13,8 @@ export function topsis(Xs, weights, types) {
   // console.log('Xs')
   // console.log(Xs)
   let Rs = []
-  console.log(Xs)
   for (let i = 0; i < N_KRITERIA; i++) {
     const norm = norm_column(Xs, i);
-    console.log('c')
-    console.log(norm)
     // console.log(column(Xs, i))
     // throw new Error('stop')
     const Ri = column(Xs, i).map(x => x / norm)
