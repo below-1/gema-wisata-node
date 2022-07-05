@@ -29,12 +29,25 @@ export default async (fastify) => {
       .find({ wisata: item._id })
       .populate('kriteria')
       .sort({ 'kriteria.createdAt': 1 })
-    // console.log('kriteria_values');
+
+    let kriteriaItems = await Kriteria.find()
+      .sort({ createdAt: 1 })
+    kriteriaItems = kriteriaItems.map(it => {
+      const kv = kriteria_values.find(kv => kv.kriteria._id == it._id)
+      const value = kv ? kv.value : undefined;
+      return {
+        value,
+        kriteria: it,
+      }
+    })
+    console.log(kriteriaItems);
+    console.log('kriteriaItems');
     // console.log(kriteria_values.map(it => it.value.includes('Parkiran')));
     await reply.xview('app/wisata/detail', {
       item,
       readonly: false,
-      kriteria_values
+      kriteria_values,
+      kriteriaItems
     })
   })
 
@@ -151,6 +164,9 @@ export default async (fastify) => {
         reply.redirect('/app/not-found')
       } else {
         await wisata.delete()
+        await KriteriaValue.deleteMany({ 
+          wisata: wisata._id
+        })
         reply.redirect('/app/wisata')
       }
     }

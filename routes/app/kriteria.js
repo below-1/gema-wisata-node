@@ -1,4 +1,4 @@
-import { Kriteria } from '../../models/kritsch.model.js'
+import { Kriteria, KriteriaValue } from '../../models/kritsch.model.js'
 import { format_weight, format_number_option } from '../../serv/kriteria.js'
 import Multer from 'fastify-multer'
 
@@ -93,11 +93,7 @@ export default async (fastify) => {
     },
     handler: async (request, reply) => {
       const id = request.params.id
-      console.log('id')
-      console.log(id)
       const kriteria = await Kriteria.findById(id)
-      console.log('kriteria')
-      console.log(kriteria)
       if (!kriteria) {
         request.flash('error', [
           `Gagal menemukan data kriteria#${id}`,
@@ -107,6 +103,9 @@ export default async (fastify) => {
         return
       }
       await kriteria.delete()
+      await KriteriaValue.deleteMany({
+        kriteria: kriteria._id
+      })
       reply.redirect('/app/kriteria')
     }
   })

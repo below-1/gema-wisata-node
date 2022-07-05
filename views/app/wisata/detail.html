@@ -79,7 +79,7 @@
             readonly=readonly)
           }}
 
-          {% for kv in kriteria_values %}
+          {% for kv in kriteriaItems %}
             <div class="mb-3">
               <label class="form-label">{{ kv.kriteria.nama }}</label>
               {% if kv.kriteria.type == 'OPTIONS' %}
@@ -89,6 +89,7 @@
                     multiple
                   {% endif %}
                   name="{{kv.kriteria.nama}}"
+                  required
                 >
                   {% for option in kv.kriteria.text_options %}
                     <option
