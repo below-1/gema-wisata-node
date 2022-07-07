@@ -99,6 +99,9 @@
                       {% endif %}
                     >{{option.label}}</option>
                   {% endfor %}
+                  {% if not kv.value %}
+                    <option disabled selected>-- Belum Dipilih --</option>
+                  {% endif %}
                 </select>
               {% elif kv.kriteria.type == 'NUMBER' %}
                 <input
@@ -108,6 +111,11 @@
                   name="{{kv.kriteria.nama}}"
                   value="{{ kv.value }}"
                 />
+              {% endif %}
+              {% if not kv.value %}
+                <div class="text-danger">
+                  Nilai Kriteria Masih Kosong
+                </div>
               {% endif %}
             </div>
           {% endfor %}

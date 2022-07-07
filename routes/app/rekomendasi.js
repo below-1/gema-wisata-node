@@ -39,20 +39,20 @@ export default async fastify => {
             model: 'Kriteria'
           }
         })
+      // console.log(items.kriterias);
+      // console.log('items');
       items = items.filter(it => it.kriterias.length && it.kriterias.every(kv => kv.value && kv.kriteria));
       if (!items.length) {
         return reply.view('app/rekomendasi/result', {
           error: 'belum ada satupun data kriteria yang diisi!'
         })
       }
-      console.log(items);
-      console.log('items');
+      // console.log(items.map(it => it.nama));
+      // console.log('items');
       
       const Xs = items.map(it => 
         it.kriterias.map(kv => {
           const v = kv.value
-          console.log(kv)
-          console.log('kv')
           const ktype = kv.kriteria.type
           if (ktype == 'NUMBER') {
             throw new Error('not_implemented')
