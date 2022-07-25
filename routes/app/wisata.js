@@ -33,13 +33,17 @@ export default async (fastify) => {
     let kriteriaItems = await Kriteria.find()
       .sort({ createdAt: 1 })
     kriteriaItems = kriteriaItems.map(it => {
-      const kv = kriteria_values.find(kv => kv.kriteria._id == it._id)
+      const kv = kriteria_values.find(kv => kv.kriteria._id.toString() == it._id.toString())
       const value = kv ? kv.value : undefined;
       return {
         value,
         kriteria: it,
       }
     });
+
+    // console.log(kriteriaItems);
+    // console.log(kriteria_values);
+    // throw new Error('stop');
     
     // console.log(kriteria_values.map(it => it.value.includes('Parkiran')));
     await reply.xview('app/wisata/detail', {

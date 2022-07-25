@@ -74,7 +74,7 @@ export default async fastify => {
         })
       )
       // console.log('Xs')
-      // console.log(Xs.map(row =>  row[2]))
+      // console.log(Xs.map(row =>  row.join('-')))
       // console.log(items.map(it => it.nama))
       // throw new Error('stop')
 
